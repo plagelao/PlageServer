@@ -4,11 +4,7 @@ class RequestLine
     
   end
 
-  def is_a_get?
-    return true
-  end
-
-  def ends_with_crlf?
+  def is_well_formed?
     return true
   end
 end
