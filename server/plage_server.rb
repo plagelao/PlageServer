@@ -1,10 +1,10 @@
 class RequestLine
  
-  def initiliaze(requets_line)
-    
+  def initialize(request_line)
+    @request_line = request_line
   end
 
-  def is_well_formed?
-    return true
+  def well_formed?
+    @request_line.split.at(0) == 'GET'
   end
 end
