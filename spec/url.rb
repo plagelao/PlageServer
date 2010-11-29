@@ -1,5 +1,4 @@
 require '../server/plage_url.rb'
-require 'URI'
 
 describe "PlageUrl" do
 
