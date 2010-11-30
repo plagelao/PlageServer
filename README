@@ -1,1 +1,6 @@
 A basic WebServer implementation
+
+TO-DO list
+- When is a string a valid request line
+- When is a string a valid http protocol
+- How to do static methods in Ruby (to check the protocol)
