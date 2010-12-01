@@ -3,6 +3,6 @@ Feature: As a web user
          I want a server up and running
 
 Scenario: I do a REQUEST to a PlageServer
-  Given: A "Hello world " app running in a PlageServer
+  Given A "Hello world " app running in a PlageServer
   When I do a REQUEST to /
   Then I should receive a RESPONSE containing "Hello world"
