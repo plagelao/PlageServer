@@ -1,6 +1,9 @@
 A basic WebServer implementation
++ Basic GET operation done (without body message)
 
-TO-DO list
-- When is a string a valid request line
-- When is a string a valid http protocol
-- How to do static methods in Ruby (to check the protocol)
+TODO
+- Read the application needed to responde to a request
+- Implement the rest of the operations
+- Accept more than one request
+- Accept more than one user
+
