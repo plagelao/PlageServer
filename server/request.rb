@@ -1,4 +1,4 @@
-require '../server/request_parser.rb'
+require 'server/request_parser'
 
 class Request
 

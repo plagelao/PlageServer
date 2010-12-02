@@ -1,4 +1,4 @@
-require '../server/request.rb'
+require 'server/request'
 require 'socket'
 
 class SocketServer

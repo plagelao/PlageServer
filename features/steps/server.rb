@@ -1,20 +1,23 @@
-require './server/socket_server.rb'
+$: << File.expand_path(File.dirname(__FILE__) + "/../..")
+require 'server/socket_server'
 
 Given /^A PlageServer$/ do
-  @server_thread = Thread.start(Server.new) do |server|
-    server.start
+  @server = SocketServer.new
+  @server_thread = Thread.new do
+    @server.start
   end
 end
 
-When /^I do a GET REQUEST to \/$/ do
-    client = Client.new
-    client.connect 8081
-    client.send("GET http://localhost:8081/ HTTP/1.1\r\n\r\n") 
+When /^I do the REQUEST "([^"]*)"$/ do |request|
+    @client = Client.new
+    @client.connect 8082
+    @client.send(request)
 end
 
-Then /^I should receive a (\d+) RESPONSE with "([^"]*)" in the body$/ do |arg1, arg2|
-    client.received?("HTTP/1.1 200 OK\r\n\r\nHello world!").should be_true
-    client.close
+Then /^I should receive the RESPONSE "([^"]*)"$/ do |response|
+    @client.received?(response).should be_true
+    @client.close
+    @server.stop
     @server_thread.kill
 end
 
@@ -30,11 +33,11 @@ class Client
   end
 
   def send message
-    @socket.send(message, Socket::MSG_DONTROUTE) 
+    @socket.send(message.gsub("\\n","\n").gsub("\\r","\r"), Socket::MSG_DONTROUTE) 
   end
 
   def received? message
-    @socket.recv(message.length) == message
+    @socket.recv(message.gsub("\\n","\n").gsub("\\r","\r").length) == message.gsub("\\n","\n").gsub("\\r","\r")
   end
 
 end

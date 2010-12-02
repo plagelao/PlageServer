@@ -9,13 +9,9 @@ class RequestParser
   end
 
   def parse(request_string)
-    @parser.parse(request_line_from request_string) do |application|
+    @parser.parse(request_string) do |application|
       yield application
     end if ends_with_crlf?(request_string)
-  end
-
-  def request_line_from(request_string)
-    request_string.split(CRLF).at(0)
   end
 
   def ends_with_crlf?(request_string)
@@ -32,28 +28,46 @@ class RequestLineParser
     @application_parser = options[:application_parser]
   end
 
-  def parse(request_line)
-    @words = request_line.split
-    yield application if first_word_is_a_method &&
-                         second_word_is_a_http_url &&
-                         request_line_ends_with_http11
+  def parse(request_string)
+    @words = request_line_from(request_string).split
+    yield application if contains_valid_method? &&
+                         contains_valid_uri?(request_string) &&
+                         contains_http11?
   end
 
-  def first_word_is_a_method
+  def request_line_from(request_string)
+    request_string.split(RequestParser::CRLF).at(0)
+  end
+
+  def contains_valid_method?
     METHODS.include?@words.at(0)
   end
 
-  def second_word_is_a_http_url
-     (@words.at(1).start_with?("/")) || URI.parse(@words.at(1)).is_a?(URI::HTTP)
+  def contains_valid_uri?(request_string)
+     (contains_absolute_path? && contains_host_header?(request_string)) || contains_absolute_uri?
   end
 
-  def request_line_ends_with_http11()
+  def contains_absolute_path?
+    @words.at(1).start_with?"/"
+  end
+
+  def contains_host_header?(request_string)
+    request_string.split("\r\n").each do |header|
+      return true if header.split.at(0) == 'Host:'
+    end
+    false;
+  end
+
+  def contains_absolute_uri?
+     URI.parse(@words.at(1)).is_a?(URI::HTTP)
+  end
+
+  def contains_http11?()
     @words.at(2) == HTTP_1_1
   end
 
   def application
-    uri = @words.at 1
-    @application_parser.parse uri
+    @application_parser.parse @words.at(1)
   end
 
 end
