@@ -11,8 +11,8 @@ describe "SocketServer" do
 
   it "should response with OK when asked for /" do
     while_server_running do |client|
-      client.send("GET http://localhost:8081/ HTTP/1.1\r\n\r\n") 
-      client.received?("HTTP/1.1 200 OK\r\n\r\nHello world!").should be_true
+      client.send("GET / HTTP/1.1\r\n\r\n") 
+      client.received?("HTTP/1.1 200 OK\r\n\r\nYou asked for /").should be_true
     end
   end
 
@@ -29,9 +29,11 @@ describe "SocketServer" do
       server.start
     end
     begin
-      client = Client.new
-      client.do 8082 do
-        yield(client)
+      2.times do
+        client = Client.new
+        client.while_connected_to 8082 do
+          yield(client)
+        end
       end
     ensure
       server.stop
@@ -42,8 +44,8 @@ end
 
 class Client
 
-  def do(port)
-    sleep 0.2
+  def while_connected_to(port)
+    sleep 0.05
     @socket = TCPSocket.open('localhost', port)
     yield
     @socket.close

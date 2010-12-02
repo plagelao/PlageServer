@@ -26,7 +26,6 @@ describe "RequestParser" do
     return RequestParser.new.parse request do |application|
       application
     end
-
   end
 end
 

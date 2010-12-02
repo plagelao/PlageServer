@@ -2,8 +2,5 @@ A basic WebServer implementation
 + Basic GET operation done (without body message)
 
 TODO
-- Read the application needed to responde to a request
 - Implement the rest of the operations
-- Accept more than one request
-- Accept more than one user
 
