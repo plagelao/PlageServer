@@ -15,10 +15,16 @@ When /^I do the REQUEST "([^"]*)"$/ do |request|
 end
 
 Then /^I should receive the RESPONSE "([^"]*)"$/ do |response|
-    @client.received?(response).should be_true
+    @response = @client.received_response
+    p @response
+    @response.include?(response.gsub("\\n","\n").gsub("\\r","\r")).should be_true
     @client.close
     @server.stop
     @server_thread.kill
+end
+
+Then /^A body containing "([^"]*)"$/ do |body|
+  @response.include?(body).should be_true
 end
 
 class Client
@@ -36,8 +42,8 @@ class Client
     @socket.send(message.gsub("\\n","\n").gsub("\\r","\r"), Socket::MSG_DONTROUTE) 
   end
 
-  def received? message
-    @socket.recv(message.gsub("\\n","\n").gsub("\\r","\r").length) == message.gsub("\\n","\n").gsub("\\r","\r")
+  def received_response
+    @socket.recv(1024)
   end
 
 end

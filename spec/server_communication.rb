@@ -12,7 +12,7 @@ describe "SocketServer" do
   it "should response with OK when asked for /" do
     for_each_client_connected do |client|
       client.send("GET / HTTP/1.1\r\nHost: localhost:8082\r\n\r\n") 
-      client.received?("HTTP/1.1 200 OK\r\n\r\nYou asked for /").should be_true
+      client.received?("HTTP/1.1 200 OK\r\n\r\n<html><head></head>\n<body>\n<h3>\nWelcome to PlageServer. Visit the <a href=\"./tutorial\">tutorial</a> for more information\n</h3>\n</body></html>").should be_true
     end
   end
 

@@ -5,12 +5,14 @@ Feature: As a web user
 Scenario: GET REQUEST with absolute URI
   Given A PlageServer
   When I do the REQUEST "GET http://localhost:8082/ HTTP/1.1\r\n\r\n"
-  Then I should receive the RESPONSE "HTTP/1.1 200 OK\r\n\r\nYou asked for /"
+  Then I should receive the RESPONSE "HTTP/1.1 200 OK\r\n\r\n"
+  And A body containing "Welcome to PlageServer"
 
 Scenario: GET REQUEST with absolute path
   Given A PlageServer
   When I do the REQUEST "GET / HTTP/1.1\r\nHost: localhost:8082\r\n\r\n"
-  Then I should receive the RESPONSE "HTTP/1.1 200 OK\r\n\r\nYou asked for /"
+  Then I should receive the RESPONSE "HTTP/1.1 200 OK\r\n\r\n"
+  And A body containing "Welcome to PlageServer"
 
 Scenario: Invalid REQUEST, no method specified
   Given A PlageServer
