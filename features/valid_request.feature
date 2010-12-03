@@ -1,14 +1,15 @@
-Feature: As a web user
+Feature: As a valid rfc 2616 implementation
          In order to visit a page
-         I want a server up and running
+         I want a valid request
 
-Scenario: GET REQUEST with absolute URI
+
+Scenario: REQUEST with absolute URI
   Given A PlageServer
   When I do the REQUEST "GET http://localhost:8082/ HTTP/1.1\r\n\r\n"
   Then I should receive the RESPONSE "HTTP/1.1 200 OK\r\n\r\n"
   And A body containing "Welcome to PlageServer"
 
-Scenario: GET REQUEST with absolute path
+Scenario: REQUEST with absolute path
   Given A PlageServer
   When I do the REQUEST "GET / HTTP/1.1\r\nHost: localhost:8082\r\n\r\n"
   Then I should receive the RESPONSE "HTTP/1.1 200 OK\r\n\r\n"
@@ -49,7 +50,3 @@ Scenario: Invalid REQUEST, invalid absolute path
   When I do the REQUEST "GET / HTTP/1.1\r\n\r\n"
   Then I should receive the RESPONSE "HTTP/1.1 400 Bad Request\r\n\r\n"
 
-Scenario: Valid REQUEST but the URI does not exist
-  Given A PlageServer
-  When I do the REQUEST "GET /not_found HTTP/1.1\r\nHost: localhost:8082\r\n\r\n"
-  Then I should receive the RESPONSE "HTTP/1.1 404 Not Found\r\n\r\n"
