@@ -1,4 +1,4 @@
-$: << File.expand_path(File.dirname(__FILE__)  + "/..")
+$: << File.join(File.expand_path(File.dirname(__FILE__)),"..")
 require 'rspec'
 
 Dir.new(File.expand_path(File.dirname(__FILE__))).each do |filename|

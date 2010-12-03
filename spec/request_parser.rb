@@ -24,7 +24,7 @@ describe "RequestParser" do
 
   def application_from request
     return RequestParser.new.parse request do |application|
-      application
+      application.uri
     end
   end
 end

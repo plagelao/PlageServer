@@ -10,15 +10,9 @@ class Request
 
   def response
     @parse.parse @request_string do |application|
-      return create_response application
+      return application.response
     end
     bad_request
-  end
-
-  def create_response(application)
-    return "HTTP/1.1 200 OK\r\n\r\n#{@applications[application.slice(1..-1).to_sym()]}" if @applications.include?(application.slice(1..-1).to_sym)
-    return "HTTP/1.1 200 OK\r\n\r\n<html><head></head>\n<body>\n<h3>\nWelcome to PlageServer. Visit /tutorial for more information\n</h3>\n</body></html>" if application == '/'
-    "HTTP/1.1 404 Not Found\r\n\r\n"
   end
 
   def bad_request()
