@@ -23,7 +23,7 @@ describe "Request" do
   end
 
   it "should process a valid GET request with an URL with the host in a header" do
-    Request.new({:request => "GET /tutorial HTTP/1.1\r\nHost: localhost:8081\r\n\r\n", :parse => RequestParser.new}).response.should == "HTTP/1.1 200 OK\r\n\r\n<html><head></head>\n<body>\n<h3>\nWelcome to the tutorial\n</h3>\n<p>To add a web page you must do a POST to the url that you want for that page and add the html of the page in the body of the POST request</p></body></html>"
+    Request.new({:request => "GET /tutorial HTTP/1.1\r\nHost: localhost:8081\r\n\r\n", :parse => RequestParser.new}).response.should == "HTTP/1.1 200 OK\r\n\r\n<html><head></head>\n<body>\n<h3>\nWelcome to the tutorial\n</h3>\n<p>To add a web page put it in the same directory where the server is running</p></body></html>"
   end
 
   it "should process a request from Safari web browser" do
@@ -36,5 +36,9 @@ describe "Request" do
 
     it "should response with a 400 if the request has an invalid header" do
     Request.new({:request => "GET http://localhost:8080/ HTTP/1.1\r\ninvalid_header: something\r\n\r\n", :parse => RequestParser.new}).response.should == "HTTP/1.1 400 Bad Request\r\n\r\n"
+  end
+
+    it "should response with a 404 if the request URI is not found" do
+    Request.new({:request => "GET http://localhost:8080/not_found HTTP/1.1\r\n\r\n", :parse => RequestParser.new}).response.should == "HTTP/1.1 404 Not Found\r\n\r\n"
   end
 end

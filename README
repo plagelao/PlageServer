@@ -2,5 +2,4 @@ A basic WebServer implementation
 + Basic GET operation done
 
 TODO
-- 404 not found
 - Implement the rest of the operations

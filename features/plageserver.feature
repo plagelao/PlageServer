@@ -48,3 +48,8 @@ Scenario: Invalid REQUEST, invalid absolute path
   Given A PlageServer
   When I do the REQUEST "GET / HTTP/1.1\r\n\r\n"
   Then I should receive the RESPONSE "HTTP/1.1 400 Bad Request\r\n\r\n"
+
+Scenario: Valid REQUEST but the URI does not exist
+  Given A PlageServer
+  When I do the REQUEST "GET /not_found HTTP/1.1\r\nHost: localhost:8082\r\n\r\n"
+  Then I should receive the RESPONSE "HTTP/1.1 404 Not Found\r\n\r\n"
