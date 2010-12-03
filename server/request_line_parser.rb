@@ -40,7 +40,8 @@ class RequestLineParser
   end
 
   def contains_absolute_uri?
-     URI.parse(@words.at(1)).is_a?(URI::HTTP)
+     uri = URI.parse(@words.at(1))
+     uri.is_a?(URI::HTTP) && uri.host== 'localhost' && uri.port == 8082
   end
 
   def contains_http11?()
