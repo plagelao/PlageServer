@@ -14,10 +14,6 @@ describe "RequestParser" do
     application_from(" / HTTP/1.1\r\nHost: localhost:8082\r\n\r\n").should == nil
   end
 
-  it "should parse a request with an absolute path of the uri in the request" do
-    application_from("GET / HTTP/1.1\r\nHost: localhost:8082\r\n\r\n").should == '/'
-  end
-
    it "should parse a request with an absolute path of the uri in the request diferent than /" do
     application_from("GET /something HTTP/1.1\r\nHost: localhost:8082\r\n\r\n").should == '/something'
   end

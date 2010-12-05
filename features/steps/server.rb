@@ -16,7 +16,6 @@ end
 
 Then /^I should receive the RESPONSE "([^"]*)"$/ do |response|
     @response = @client.received_response
-    p @response
     @response.include?(response.gsub("\\n","\n").gsub("\\r","\r")).should be_true
     @client.close
     @server.stop
